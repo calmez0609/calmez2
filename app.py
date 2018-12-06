@@ -49,7 +49,7 @@ def button(event):
     message = TemplateSendMessage(
         alt_text='Buttons template',
         template=ButtonsTemplate(
-            thumbnail_image_url='https://github.com/calmez0609/calmez2/blob/master/a.jpg?raw=true',
+            thumbnail_image_url='https://example.com/image.jpg',
             title='Menu',
             text='Please select',
             actions=[
