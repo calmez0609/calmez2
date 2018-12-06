@@ -52,7 +52,7 @@ def button(event):
             title='Menu',
             text='Please select',
             actions=[
-                MessageTemplateAction(
+                PostbackTemplateAction(
                     label='postback',
                     text='postback text',
                     data='action=buy&itemid=1'
@@ -61,7 +61,7 @@ def button(event):
                     label='message',
                     text='message text'
                 ),
-                MessageTemplateAction(
+                URITemplateAction(
                     label='uri',
                     uri='http://example.com/'
                 )
