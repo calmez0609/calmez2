@@ -31,18 +31,19 @@ def callback():
 
 def KeyWordDict(text):
     Keylist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
-    for k in Keylist.keys():
-        if text.find(k)!= -1:
-            return[True,Keylist[k]]
-    return[False]
+    for k in KeyWordlist.keys():
+        if text.find(k) != -1:
+            return [True,KeyWordlist[k]]
+    return [False]
 
 def Reply(event):
+    Ktemp = KeyWord(event.message.text)
     if Ktemp[0]:
         line_bot_api.reply_message(event.reply_token,
-           TextSendMessage(text=Ktemp[1]))
+            TextSendMessage(text = Ktemp[1]))
     else:
         line_bot_api.reply_message(event.reply_token,
-           TextSendMessage(text=event.message.text))
+            TextSendMessage(text = event.message.text))
 
 def button(event):
     message = TemplateSendMessage(
