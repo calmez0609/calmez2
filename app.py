@@ -51,16 +51,16 @@ def button():
         text='Please select',
         actions=[
             PostbackTemplateAction(
-                label='postback',
+                label='a',
                 text='postback text',
                 data='action=buy&itemid=1'
             ),
             MessageTemplateAction(
-                label='message',
+                label='b',
                 text='message text'
             ),
             URITemplateAction(
-                label='uri',
+                label='c',
                 uri='http://example.com/'
             )
         ]
