@@ -45,31 +45,30 @@ def Reply(event):
            TextSendMessage(text=event.message.text))
 
 def button(event):
-    line_bot_api.reply_message(event.reply_token,
-        TemplateSendMessage(
-            alt_text='替代文字',
-            template=ButtonsTemplate(
-                thumbnail_image_url='圖案路徑.jpg',
-                title='標題',
-                text='內容',
-                actions=[
-                    PostbackTemplateAction(
-                    label='按鈕文字',
-                    text='發話文字',
-                    data='夾帶資料'
-                    ),
-                    MessageTemplateAction(
-                        label='按鈕文字',
-                        text='發話文字'
-                    ),
-                    URITemplateAction(
-                        label='按鈕文字',
-                        uri='網址'
-                    )
-                ]
-            )
+    message = TemplateSendMessage(
+        alt_text='Buttons template',
+        template=ButtonsTemplate(
+            thumbnail_image_url='https://example.com/image.jpg',
+            title='Menu',
+            text='Please select',
+            actions=[
+                PostbackTemplateAction(
+                    label='postback',
+                    text='postback text',
+                    data='action=buy&itemid=1'
+                ),
+                MessageTemplateAction(
+                    label='message',
+                    text='message text'
+                ),
+                URITemplateAction(
+                    label='uri',
+                    uri='http://example.com/'
+                )
+            ]
         )
     )
+    line_bot_api.reply_message(event.reply_token, message)
     
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
