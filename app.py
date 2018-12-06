@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, abort
+from flask import Flask, request, abort
 import random
 from linebot import (
     LineBotApi, WebhookHandler
@@ -35,6 +35,7 @@ def KeyWordDict(text):
         if text.find(k)!= -1:
             return[True,Keylist[k]]
     return[False]
+
 def Reply(event):
     if Ktemp[0]:
         line_bot_api.reply_message(event.reply_token,
@@ -42,7 +43,8 @@ def Reply(event):
     else:
         line_bot_api.reply_message(event.reply_token,
            TextSendMessage(text=event.message.text))
-def button(event):
+
+def Reply(event):
     return line_bot_api.reply_message(event.reply_token,
         TemplateSendMessage(
             alt_text='替代文字',
