@@ -33,16 +33,16 @@ def KeyWordDict(text):
     Keylist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
     for k in Keylist.keys():
     if text.find(k)!=-1:
-       return[True,Keylist[k]]
+        return[True,Keylist[k]]
     return[False]
 def Reply(event):
     if Ktemp[0]:
-       line_bot_api.reply_message(event.reply_token,
+        line_bot_api.reply_message(event.reply_token,
            TextSendMessage(text=Ktemp[1]))
     else:
-       line_bot_api.reply_message(event.reply_token,
+        line_bot_api.reply_message(event.reply_token,
            TextSendMessage(text=event.message.text))
-def button():
+def button(event):
     message = TemplateSendMessage(
     alt_text='Buttons template',
     template=ButtonsTemplate(
@@ -72,7 +72,7 @@ line_bot_api.reply_message(event.reply_token, message)
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        button()
+        button(event)
         #Reply(event)
     except Exception as e:
          line_bot_api.reply_message(event.reply_token,
