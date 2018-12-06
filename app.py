@@ -30,7 +30,7 @@ def callback():
     return 'OK'
 
 def KeyWordDict(text):
-    Keylist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜"，"李伯父":"你在叫就拿菸頭燙你"}
+    Keylist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
     for k in Keylist.keys():
     if text.find(k)!=-1:
        return[True,Keylist[k]]
