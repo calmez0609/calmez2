@@ -42,7 +42,7 @@ def Reply(event):
     else:
         line_bot_api.reply_message(event.reply_token,
            TextSendMessage(text=event.message.text))
-def Reply(event):
+def button(event):
     return line_bot_api.reply_message(event.reply_token,
         TemplateSendMessage(
             alt_text='替代文字',
