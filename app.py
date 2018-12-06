@@ -45,7 +45,7 @@ def Reply(event):
            TextSendMessage(text=event.message.text))
 
 def button(event):
-    return line_bot_api.reply_message(event.reply_token,
+    line_bot_api.reply_message(event.reply_token,
         TemplateSendMessage(
             alt_text='替代文字',
             template=ButtonsTemplate(
