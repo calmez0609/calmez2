@@ -29,7 +29,7 @@ def callback():
         abort(400)
     return 'OK'
 
-def KeyWordDict(text):
+def KeyWord(text):
     KeyWordlist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
     for k in KeyWordlist.keys():
         if text.find(k) != -1:
@@ -37,7 +37,7 @@ def KeyWordDict(text):
     return [False]
 
 def Reply(event):
-    Ktemp = KeyWord(event.message.text)
+    Ktemp = KeyWordD(event.message.text)
     if Ktemp[0]:
         line_bot_api.reply_message(event.reply_token,
             TextSendMessage(text = Ktemp[1]))
