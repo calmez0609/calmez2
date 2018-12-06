@@ -73,8 +73,8 @@ def button(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        button(event)
-        #Reply(event)
+        #button(event)
+        Reply(event)
     except Exception as e:
          line_bot_api.reply_message(event.reply_token,
            TextSendMessage(text=str(e)))
