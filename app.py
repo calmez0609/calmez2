@@ -46,7 +46,7 @@ def button():
     message = TemplateSendMessage(
     alt_text='Buttons template',
     template=ButtonsTemplate(
-        thumbnail_image_url='https://example.com/image.jpg',
+        thumbnail_image_url='a.jpg',
         title='Menu',
         text='Please select',
         actions=[
