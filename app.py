@@ -29,7 +29,7 @@ def callback():
         abort(400)
     return 'OK'
 
-def KeyWord(text):
+def KeyWord(event):
     KeyWordlist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
     for k in KeyWordlist.keys():
         if text.find(k) != -1:
