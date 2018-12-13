@@ -54,7 +54,7 @@ def button(event):
             text='Please select',
             actions=[
                 PostbackTemplateAction(
-                    label='postback'
+                    label='postback',
                     data='還沒'
                 ),
                 MessageTemplateAction(
