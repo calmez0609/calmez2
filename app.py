@@ -51,7 +51,7 @@ def Reply(event):
                 TextSendMessage(text = Ktemp[1]))
         else:
             line_bot_api.reply_message(event.reply_token,
-                Button(event))
+                button(event))
         line_bot_api.reply_message(event.reply_token,
             TextSendMessage(text = event.message.text))
         
