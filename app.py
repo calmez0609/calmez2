@@ -54,9 +54,8 @@ def button(event):
             text='Please select',
             actions=[
                 PostbackTemplateAction(
-                    label='postback',
-                    text='postback text',
-                    data='action=buy&itemid=1'
+                    label='postback'
+                    data='還沒'
                 ),
                 MessageTemplateAction(
                     label='message',
@@ -84,7 +83,7 @@ def handle_postback(event):
         command=event.postback.data.split(",")
         if command[0]=="還沒":
             line_bot.api.reply_message(event.reply_token,
-                TextSendMessage(text="還沒就趕快練習去~~~~"))
+                TextSendMessage(text="還沒就趕快去練習~~~~"))
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
