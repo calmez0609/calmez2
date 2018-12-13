@@ -35,15 +35,18 @@ def KeyWord(text):
         if text.find(k) != -1:
             return [True,KeyWordlist[k]]
     return [False]
-
 def Reply(event):
-    Ktemp = KeyWord(event.message.text)
-    if Ktemp[0]:
-        line_bot_api.reply_message(event.reply_token,
-            TextSendMessage(text = Ktemp[1]))
+    tempText = event.message.text.split(",")
+    if tempText[0] == "發送" and event.source.user_id == "U95418ebc4fffefdd89088d6f9dabd75b":
+        line_bot_api.push_message(tempText[1], TextSendMessage(text=tempText[2]))
     else:
-        line_bot_api.reply_message(event.reply_token,
-            TextSendMessage(text = event.message.text))
+        Ktemp = KeyWord(event)
+        if Ktemp[0]:
+            line_bot_api.reply_message(event.reply_token,
+                TextSendMessage(text = Ktemp[1]))
+        else:
+            line_bot_api.reply_message(event.reply_token,
+                Button(event))
 
 def button(event):
     message = TemplateSendMessage(
