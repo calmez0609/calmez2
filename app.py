@@ -35,18 +35,15 @@ def KeyWord(text):
         if text.find(k) != -1:
             return [True,KeyWordlist[k]]
     return [False]
+
 def Reply(event):
-    tempText = event.message.text.split(",")
-    if tempText[0] == "發送" and event.source.user_id == "U7f19fee0033bf004382e4016e29f9a38":
-        line_bot_api.push_message(tempText[1], TextSendMessage(text=tempText[2]))
+    Ktemp = KeyWord(event.message.text)
+    if Ktemp[0]:
+        line_bot_api.reply_message(event.reply_token,
+            TextSendMessage(text = Ktemp[1]))
     else:
-        Ktemp = KeyWord(event)
-        if Ktemp[0]:
-            line_bot_api.reply_message(event.reply_token,
-                TextSendMessage(text = Ktemp[1]))
-        else:
-            line_bot_api.reply_message(event.reply_token,
-                Button(event))
+        line_bot_api.reply_message(event.reply_token,
+            TextSendMessage(text = event.message.text))
 
 def button(event):
     message = TemplateSendMessage(
@@ -57,8 +54,9 @@ def button(event):
             text='Please select',
             actions=[
                 PostbackTemplateAction(
-                    label='打lol',
-                    data='還沒'
+                    label='postback',
+                    text='postback text',
+                    data='action=buy&itemid=1'
                 ),
                 MessageTemplateAction(
                     label='message',
@@ -83,12 +81,10 @@ def handle_message(event):
            TextSendMessage(text=str(e)))
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    command=event.postback.data.split(",")
-    if command[0]=="還沒":
-        line_bot_api.reply_message(event.reply_token,
-                                   TextSendMessage(text="別再送我下去辣"))
-        line_bot_api.push_message(event.source.user_id,TextSendMessage(text="你這個死銅牌"))
-        
+        command=event.postback.data.split(",")
+        if command[0]="還沒":
+            line_bot.api.reply_message(event.reply_token,
+                TextSendMessage(text="還沒就趕快練習去~~~~"))
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
