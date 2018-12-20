@@ -30,9 +30,9 @@ def callback():
     return 'OK'
 
 def KeyWord(event):
-    KeyWordDict = {"你好":"你也好啊",
-                   "你是誰":"我是大帥哥",
-                   "帥":"帥炸了",
+    KeyWordDict = {"你好":"這樣跟主席講話的嗎",
+                   "你是誰":"我是毛主席",
+                   "帥":"該批鬥你了",
                    "差不多了":"讚!!!"}
 
     for k in KeyWordDict.keys():
@@ -46,8 +46,8 @@ def Button(event):
         alt_text='特殊訊息，請進入手機查看',
         template=ButtonsTemplate(
             thumbnail_image_url='https://github.com/54bp6cl6/LineBotClass/blob/master/logo.jpg?raw=true',
-            title='HPClub - Line Bot 教學',
-            text='大家學會了ㄇ',
+            title='毛語錄',
+            text='讀毛語錄了沒?',
             actions=[
                 PostbackTemplateAction(
                     label='還沒',
@@ -104,7 +104,7 @@ def handle_postback(event):
     command = event.postback.data.split(',')
     if command[0] == "還沒":
         line_bot_api.reply_message(event.reply_token, 
-            TextSendMessage(text="還沒就趕快練習去~~~"))
+            TextSendMessage(text="還沒就把你送去批鬥~~~"))
 
 import os
 if __name__ == "__main__":
