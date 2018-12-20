@@ -101,29 +101,25 @@ def Command(event):
         return False
 
 #新增一個參數
-def Reply(event,userlist):
+def Reply(event,userlist,clientindex):
     if not Command(event):
         Ktemp = KeyWord(event)
         if Ktemp[0]:
             line_bot_api.reply_message(event.reply_token,
                 TextSendMessage(text = Ktemp[1]))
         else:
-            if userlist[event.source.user_id] == '-1':
+            if userlist[clientindex].Situation == '-1':
                 line_bot_api.reply_message(event.reply_token,
                     TextSendMessage(text = "你知道台灣最稀有、最浪漫的鳥是哪一種鳥嗎？"))
-                userlist[event.source.user_id] = '0'
-            elif userlist[event.source.user_id]=='0':
+                Write(clientindex,'0',3)
+            else:
                 if event.message.text == "黑面琵鷺":
                     line_bot_api.reply_message(event.reply_token,
                         TextSendMessage(text = "你居然知道答案!!!"))
                 else:
                     line_bot_api.reply_message(event.reply_token,
                         TextSendMessage(text = "答案是：黑面琵鷺!!!因為每年冬天，他們都會到台灣來\"壁咚\""))
-                userlist[event.source.user_id] = '1'
-                elif userlist[event.source.user_id]=='1':
-                    line_bot_api.reply_message(event.reply_token,
-                        TextSendMessage(text = "中國式洨話"))
-                    userlist[event.source.user_id]='-1'
+                Write(clientindex,'-1',3)
                     
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
