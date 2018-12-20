@@ -112,15 +112,19 @@ def Reply(event,userlist):
                 line_bot_api.reply_message(event.reply_token,
                     TextSendMessage(text = "你知道台灣最稀有、最浪漫的鳥是哪一種鳥嗎？"))
                 userlist[event.source.user_id] = '0'
-            else:
+            elif userlist[event.source.user_id]=='0':
                 if event.message.text == "黑面琵鷺":
                     line_bot_api.reply_message(event.reply_token,
                         TextSendMessage(text = "你居然知道答案!!!"))
                 else:
                     line_bot_api.reply_message(event.reply_token,
                         TextSendMessage(text = "答案是：黑面琵鷺!!!因為每年冬天，他們都會到台灣來\"壁咚\""))
-                userlist[event.source.user_id] = '-1'
-
+                userlist[event.source.user_id] = '1'
+                elif userlist[event.source.user_id]=='1':
+                    line_bot_api.reply_message(event.reply_token,
+                        TextSendMessage(text = "中國式洨話"))
+                    userlist[event.source.user_id]='-1'
+                    
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
