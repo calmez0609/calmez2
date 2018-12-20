@@ -28,7 +28,32 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+#會員系統
+def GetUserlist():
+    userlist = {}
+    file = open('users','r')
+    while True :
+        temp = file.readline().strip().split(',')
+        if temp[0] == "" : break
+        userlist[temp[0]] = temp[1]
+    file.close()
+    return userlist
 
+#登入系統
+def Login(event,userlist):
+    i = 0
+    for user in userlist.keys():
+        if event.source.user_id == user:
+            return i
+        i+=1
+    return -1
+
+#寫入資料
+def Update(userlist):
+    file = open('users','w')
+    for user in userlist.keys():
+        file.write(user+','+userlist[user])
+    file.close()
 def Keyword(event):
     KeyWordDict = {"你好":["text","好個大躍進"],
                    "你是誰":["text","我是毛主席"],
@@ -93,15 +118,22 @@ def Reply(event):
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        Reply(event)
-        '''
-        line_bot_api.push_message("U7f19fee0033bf004382e4016e29f9a38", TextSendMessage(text=event.source.user_id + "說:"))
-        line_bot_api.push_message("U7f19fee0033bf004382e4016e29f9a38", TextSendMessage(text=event.message.text))
-        '''
+        userlist = GetUserlist()
+        clientindex = Login(event,userlist)
+        if clientindex > -1:
+            Reply(event,userlist)
+            '''
+            line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.source.user_id + "說:"))
+            line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.message.text))
+            '''
+        else:
+            userlist[event.source.user_id] = '-1';
+            line_bot_api.reply_message(event.reply_token, 
+                TextSendMessage(text="註冊成功"))
+        Update(userlist)
     except Exception as e:
         line_bot_api.reply_message(event.reply_token, 
             TextSendMessage(text=str(e)))
-
 #處理Postback
 @handler.add(PostbackEvent)
 def handle_postback(event):
