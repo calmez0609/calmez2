@@ -30,73 +30,82 @@ def callback():
     return 'OK'
 
 def KeyWord(event):
-    KeyWordlist={"李英才":"你叫也沒有用","李伯母":"讓英才占點便宜","李伯父":"你在叫就拿菸頭燙你"}
-    for k in KeyWordlist.keys():
-        if text.find(k) != -1:
-            return [True,KeyWordlist[k]]
+    KeyWordDict = {"你好":"你也好啊",
+                   "你是誰":"我是大帥哥",
+                   "帥":"帥炸了",
+                   "差不多了":"讚!!!"}
+
+    for k in KeyWordDict.keys():
+        if event.message.text.find(k) != -1:
+            return [True,KeyWordDict[k]]
     return [False]
 
-def Reply(event):
+#按鈕版面系統
+def Button(event):
+    return TemplateSendMessage(
+        alt_text='特殊訊息，請進入手機查看',
+        template=ButtonsTemplate(
+            thumbnail_image_url='https://github.com/54bp6cl6/LineBotClass/blob/master/logo.jpg?raw=true',
+            title='HPClub - Line Bot 教學',
+            text='大家學會了ㄇ',
+            actions=[
+                PostbackTemplateAction(
+                    label='還沒',
+                    data='還沒'
+                ),
+                MessageTemplateAction(
+                    label='差不多了',
+                    text='差不多了'
+                ),
+                URITemplateAction(
+                    label='幫我們按個讚',
+                    uri='https://www.facebook.com/ShuHPclub'
+                )
+            ]
+        )
+    )
+
+#指令系統，若觸發指令會回傳True
+def Command(event):
     tempText = event.message.text.split(",")
-    if tempText[0] == "發送" and event.source.user_id == "U7f19fee0033bf004382e4016e29f9a38":
+    if tempText[0] == "發送" and event.source.user_id == "U95418ebc4fffefdd89088d6f9dabd75b":
         line_bot_api.push_message(tempText[1], TextSendMessage(text=tempText[2]))
-    Ktemp = KeyWord(event.message.text)
-    if Ktemp[0]:
-        line_bot_api.reply_message(event.reply_token,
-            TextSendMessage(text = Ktemp[1]))
+        return True
     else:
+        return False
+
+#回覆函式，指令 > 關鍵字 > 按鈕
+def Reply(event):
+    if not Command(event):
         Ktemp = KeyWord(event)
         if Ktemp[0]:
             line_bot_api.reply_message(event.reply_token,
                 TextSendMessage(text = Ktemp[1]))
         else:
             line_bot_api.reply_message(event.reply_token,
-                button(event))
-        line_bot_api.reply_message(event.reply_token,
-            TextSendMessage(text = event.message.text))
-        
-def button(event):
-    message = TemplateSendMessage(
-        alt_text='Buttons template',
-        template=ButtonsTemplate(
-            thumbnail_image_url='https://example.com/image.jpg',
-            title='Menu',
-            text='Please select',
-            actions=[
-                PostbackTemplateAction(
-                    label='打lol',
-                    data='還沒'
-                ),
-                MessageTemplateAction(
-                    label='message',
-                    text='message text'
-                ),
-                URITemplateAction(
-                    label='uri',
-                    uri='http://example.com/'
-                )
-            ]
-        )
-    )
-    line_bot_api.reply_message(event.reply_token, message)
-    
+                Button(event))
+
+# 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     try:
-        #button(event)
         Reply(event)
-       #line_bot_api.push_message("U7f19fee0033bf004382e4016e29f9a38", TextSendMessage(text=event.source.user_id))
-       #line_bot_api.push_message("U7f19fee0033bf004382e4016e29f9a38", TextSendMessage(text=event.message.text))
+        '''
+        line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.source.user_id + "說:"))
+        line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.message.text))
+        '''
     except Exception as e:
-         line_bot_api.reply_message(event.reply_token,
-           TextSendMessage(text=str(e)))
+        line_bot_api.reply_message(event.reply_token, 
+            TextSendMessage(text=str(e)))
+
+#處理Postback
 @handler.add(PostbackEvent)
 def handle_postback(event):
-        command=event.postback.data.split(",")
-        if command[0]="還沒":
-            line_bot.api.reply_message(event.reply_token,
-                TextSendMessage(text="在打就要下去了"))
-             line_bot_api.push_message(event.source.user_id, TextSendMessage(text="你這個死銅牌"))
+    command = event.postback.data.split(',')
+    if command[0] == "還沒":
+        line_bot_api.reply_message(event.reply_token, 
+            TextSendMessage(text="還沒就趕快練習去~~~"))
+
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
