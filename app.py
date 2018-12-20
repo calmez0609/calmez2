@@ -29,39 +29,47 @@ def callback():
         abort(400)
     return 'OK'
 
-def KeyWord(event):
-    KeyWordDict = {"你好":"這樣跟主席講話的嗎",
-                   "你是誰":"我是毛主席",
-                   "帥":"該批鬥你了",
-                   "差不多了":"讚!!!"}
+def Keyword(event):
+    KeyWordDict = {"你好":["text","好個大躍進"],
+                   "你是誰":["text","我是毛主席"],
+                   "差不多了":["text","讚!!!"],
+                   "帥":["sticker",'1','120']}
 
     for k in KeyWordDict.keys():
         if event.message.text.find(k) != -1:
-            return [True,KeyWordDict[k]]
-    return [False]
+            if KeyWordDict[k][0] == "text":
+                line_bot_api.reply_message(event.reply_token,TextSendMessage(text = KeyWordDict[k][1]))
+            elif KeyWordDict[k][0] == "sticker":
+                line_bot_api.reply_message(event.reply_token,StickerSendMessage(
+                    package_id=KeyWordDict[k][1],
+                    sticker_id=KeyWordDict[k][2]))
+            return True
+    return False
 
 #按鈕版面系統
 def Button(event):
-    return TemplateSendMessage(
-        alt_text='特殊訊息，請進入手機查看',
-        template=ButtonsTemplate(
-            thumbnail_image_url='https://github.com/54bp6cl6/LineBotClass/blob/master/logo.jpg?raw=true',
-            title='毛語錄',
-            text='讀毛語錄了沒?',
-            actions=[
-                PostbackTemplateAction(
-                    label='還沒',
-                    data='還沒'
-                ),
-                MessageTemplateAction(
-                    label='差不多了',
-                    text='差不多了'
-                ),
-                URITemplateAction(
-                    label='幫我們按個讚',
-                    uri='https://www.facebook.com/ShuHPclub'
-                )
-            ]
+    line_bot_api.reply_message(event.reply_token,
+        TemplateSendMessage(
+            alt_text='特殊訊息，請進入手機查看',
+            template=ButtonsTemplate(
+                thumbnail_image_url='https://github.com/54bp6cl6/LineBotClass/blob/master/logo.jpg?raw=true',
+                title='毛語錄',
+                text='你讀毛語錄了嗎',
+                actions=[
+                    PostbackTemplateAction(
+                        label='還沒',
+                        data='還沒'
+                    ),
+                    MessageTemplateAction(
+                        label='差不多了',
+                        text='差不多了'
+                    ),
+                    URITemplateAction(
+                        label='幫我們按個讚',
+                        uri='https://www.facebook.com/ShuHPclub'
+                    )
+                ]
+            )
         )
     )
 
@@ -77,13 +85,8 @@ def Command(event):
 #回覆函式，指令 > 關鍵字 > 按鈕
 def Reply(event):
     if not Command(event):
-        Ktemp = KeyWord(event)
-        if Ktemp[0]:
-            line_bot_api.reply_message(event.reply_token,
-                TextSendMessage(text = Ktemp[1]))
-        else:
-            line_bot_api.reply_message(event.reply_token,
-                Button(event))
+        if not Keyword(event):
+            Button(event)
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
@@ -104,93 +107,16 @@ def handle_postback(event):
     command = event.postback.data.split(',')
     if command[0] == "還沒":
         line_bot_api.reply_message(event.reply_token, 
-            TextSendMessage(text="還沒就把你送去批鬥~~~"))
-        def KeyWord(event):
-    KeyWordDict = {"你好":"好個大躍進",
-                   "你是誰":"我是毛主席",
-                   "帥":"帥到批鬥你",
-                   "差不多了":"讚!!!"}
-
-    for k in KeyWordDict.keys():
-        if event.message.text.find(k) != -1:
-            return [True,KeyWordDict[k]]
-    return [False]
-
-#按鈕版面系統
-def Button(event):
-    return TemplateSendMessage(
-        alt_text='特殊訊息，請進入手機查看',
-        template=ButtonsTemplate(
-            thumbnail_image_url='https://github.com/54bp6cl6/LineBotClass/blob/master/logo.jpg?raw=true',
-            title='毛語錄',
-            text='你讀毛語錄了嗎',
-            actions=[
-                PostbackTemplateAction(
-                    label='還沒',
-                    data='還沒'
-                ),
-                MessageTemplateAction(
-                    label='差不多了',
-                    text='差不多了'
-                ),
-                URITemplateAction(
-                    label='幫我們按個讚',
-                    uri='https://www.facebook.com/ShuHPclub'
-                )
-            ]
-        )
-    )
-
-#指令系統，若觸發指令會回傳True
-def Command(event):
-    tempText = event.message.text.split(",")
-    if tempText[0] == "發送" and event.source.user_id == "U95418ebc4fffefdd89088d6f9dabd75b":
-        line_bot_api.push_message(tempText[1], TextSendMessage(text=tempText[2]))
-        return True
-    else:
-        return False
-
-#回覆函式，指令 > 關鍵字 > 按鈕
-def Reply(event):
-    if not Command(event):
-        Ktemp = KeyWord(event)
-        if Ktemp[0]:
-            line_bot_api.reply_message(event.reply_token,
-                TextSendMessage(text = Ktemp[1]))
-        else:
-            line_bot_api.reply_message(event.reply_token,
-                Button(event))
-
-# 處理訊息
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    try:
-        Reply(event)
-        '''
-        line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.source.user_id + "說:"))
-        line_bot_api.push_message("U95418ebc4fffefdd89088d6f9dabd75b", TextSendMessage(text=event.message.text))
-        '''
-    except Exception as e:
-        line_bot_api.reply_message(event.reply_token, 
-            TextSendMessage(text=str(e)))
-
-#處理Postback
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    command = event.postback.data.split(',')
-    if command[0] == "還沒":
-        line_bot_api.reply_message(event.reply_token, 
-            TextSendMessage(text="紅衛兵把她拖出去批鬥"))
+            TextSendMessage(text="紅衛兵把她拖出去~~~"))
         
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         StickerSendMessage(
-            package_id=event.message.package_id,
-            sticker_id=event.message.sticker_id)
+            package_id='1',
+            sticker_id='410')
     )
-
 
 import os
 if __name__ == "__main__":
