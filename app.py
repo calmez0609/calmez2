@@ -28,6 +28,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+#設定帳號class
 class user:
     def __init__(self,ID,Name,Situation):
         self.Name = Name
@@ -48,7 +49,7 @@ def Signup(user_id,name):
 def GetUserList():
     url = "https://script.google.com/macros/s/AKfycbwVs2Si91yKz6m3utpaPtsttbh_lUQ8LOQM3Zud2hPFxXCgW3u1/exec"
     payload = {
-        'sheetUrl':"https://docs.google.com/spreadsheets/d/1PGw2Eca9UCR8Qf_8c9_aW9X4x_Mw6SPmDgC5YgOBzX0/edit?usp=sharing",
+        'sheetUrl':"https://docs.google.com/spreadsheets/d/1jYb0n7PLSKSUCol4SYUllOWAPzLolkX10k-eazilSjg/edit#gid=0",
         'sheetTag':"工作表1",
         'row': 1,
         'col': 1,
@@ -82,7 +83,7 @@ def Write(Row,data,Col):
         'sheetTag':"工作表1",
         'data':data,
         'x':str(Row+1),
-        'y':str(Col)
+        'y':str(Col+1)
     }
     requests.get(url, params=payload)
 
