@@ -83,7 +83,7 @@ def Write(Row,data,Col):
         'sheetTag':"工作表1",
         'data':data,
         'x':str(Row+1),
-        'y':str(Col+1)
+        'y':str(Col)
     }
     requests.get(url, params=payload)
 
