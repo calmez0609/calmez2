@@ -39,7 +39,7 @@ class user:
 def Signup(user_id,name):
     url = "https://script.google.com/macros/s/AKfycbxn7Slc2_sKHTc6uEy3zmm3Bh_4duiGCXLavUM3RB0a3yzjAxc/exec"
     payload = {
-        'sheetUrl':"https://docs.google.com/spreadsheets/d/1PGw2Eca9UCR8Qf_8c9_aW9X4x_Mw6SPmDgC5YgOBzX0/edit?usp=sharing",
+        'sheetUrl':"https://docs.google.com/spreadsheets/d/1jYb0n7PLSKSUCol4SYUllOWAPzLolkX10k-eazilSjg/edit?usp=sharing",
         'sheetTag':"工作表1",
         'data':user_id+','+name+',-1'
     }
@@ -49,7 +49,7 @@ def Signup(user_id,name):
 def GetUserList():
     url = "https://script.google.com/macros/s/AKfycbwVs2Si91yKz6m3utpaPtsttbh_lUQ8LOQM3Zud2hPFxXCgW3u1/exec"
     payload = {
-        'sheetUrl':"https://docs.google.com/spreadsheets/d/1jYb0n7PLSKSUCol4SYUllOWAPzLolkX10k-eazilSjg/edit#gid=0",
+        'sheetUrl':"https://docs.google.com/spreadsheets/d/1jYb0n7PLSKSUCol4SYUllOWAPzLolkX10k-eazilSjg/edit?usp=sharing,
         'sheetTag':"工作表1",
         'row': 1,
         'col': 1,
@@ -79,7 +79,7 @@ def Login(user_id,userlist):
 def Write(Row,data,Col):
     url = "https://script.google.com/macros/s/AKfycbyBbQ1lsq4GSoKE0yiU5d6x0z2EseeBNZVTewWlSZhQ6EVrizo/exec"
     payload = {
-        'sheetUrl':"https://docs.google.com/spreadsheets/d/1PGw2Eca9UCR8Qf_8c9_aW9X4x_Mw6SPmDgC5YgOBzX0/edit?usp=sharing",
+        'sheetUrl':"https://docs.google.com/spreadsheets/d/1jYb0n7PLSKSUCol4SYUllOWAPzLolkX10k-eazilSjg/edit?usp=sharing",
         'sheetTag':"工作表1",
         'data':data,
         'x':str(Row+1),
